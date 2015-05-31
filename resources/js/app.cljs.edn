@@ -1,0 +1,2 @@
+{:require  [the-adventure-begins.app]
+ :init-fns [the-adventure-begins.app/init]}
