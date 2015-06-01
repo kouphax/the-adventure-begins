@@ -2,6 +2,29 @@
 body {
   font-family: 'Goudy Bookletter 1911', serif;
   font-size: 1.6rem;
+  padding-bottom: 3rem;
+}
+
+.nav-bar {
+  color: #fff;
+  font-family: 'Droid Sans', sans-serif;
+  font-size: 1rem;
+  padding: 1rem;
+  position: fixed;
+  width: 100%;
+  bottom: 0;
+
+  .actions {
+    float: right;
+  }
+
+  a {
+    color: #fff;
+
+    &.title {
+      font-weight:bold;
+    }
+  }
 }
 
 h1 {
@@ -18,6 +41,12 @@ h2 {
 }
 
 p {
+  text-align: justify;
+}
+
+.text-container {
+  margin-top: 1rem;
+  margin-bottom: 1.5rem;
   text-align: justify;
 }
 
