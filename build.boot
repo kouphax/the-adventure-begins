@@ -5,10 +5,12 @@
                  [adzerk/boot-cljs-repl "0.1.9"      :scope "test"]
                  [adzerk/boot-reload    "0.2.4"      :scope "test"]
                  [pandeiro/boot-http    "0.6.1"      :scope "test"]
+                 [org.clojure/core.async "0.2.371"]
                  [reagent "0.5.0"]
                  [mathias/boot-sassc  "0.1.1" :scope "test"]
                  [markdown-clj "0.9.66"]
-                 [secretary "1.2.3"]])
+                 [secretary "1.2.3"]
+                 [cljs-http "0.1.37"]])
 
 (require
  '[adzerk.boot-cljs      :refer [cljs]]
@@ -25,7 +27,7 @@
         (sass :output-dir "css")))
 
 (deftask run []
-  (comp (serve)
+  (comp (serve :port 3001)
         (watch)
         (cljs-repl)
         (reload)
