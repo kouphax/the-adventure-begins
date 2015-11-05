@@ -11,15 +11,49 @@
 
 (enable-console-print!)
 
-(go
-  (let [ response (<! (http/get "http://localhost:3000/stories" {:with-credentials? false}))]
-  (prn (-> response :body first))))
+(def stories (atom []))
 
-(defn stories []
+(defn- load-stories []
   (go
    (let [response (<! (http/get "http://localhost:3000/stories" { :with-credentials? false }))]
-     (fn []
-       (for)))))
+     (prn (:body response))
+     (reset! stories (:body response)))))
+
+
+(defn header-partial
+  ([heading-1]
+   (header-partial heading-1 nil))
+  ([heading-1 heading-2]
+   [:div
+     [:h1 heading-1]
+     (when (some? heading-2)
+       [:h2 heading-2])
+     [:div.page-divider "•••"]]))
+
+;(defn list-view []
+;  [:div.container
+;   [:div.row
+;    [:div.col.l8.offset-l2
+;     [header-partial
+;      "The Adventure Begins"
+;      "Interactive Adventure Stories"]
+;     (doall
+;       (for [[slug story] (@session :stories)]
+;        ^{ :key slug } [:a.option { :href (str "#/" slug) }
+;         (story :title)]))]]])
+(defn stories-component []
+  (do
+    (load-stories)
+    (fn []
+      [:div.container
+       [:div.row
+        [:div.col.l8.offset-l2
+         [header-partial "The Adventure Begins" "Interactive Adventure Stories"]
+         (for [story @stories]
+           ^{ :key (:id story) } [:a.option { :href (str "#/" (:id story)) } (story :title)])]]])))
+
+(defn init []
+  (reagent/render-component [stories-component] (.getElementById js/document "container")))
 
 ; - UTILITIES -----------------------------------------------------------------
 ;(defn slug [input] (-> input
